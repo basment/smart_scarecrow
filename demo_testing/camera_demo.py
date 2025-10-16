@@ -1,4 +1,5 @@
 from ultralytics import YOLO
+from gpiozero import LED, Buzzer
 from picamera2 import Picamera2
 import time, os
 
@@ -7,7 +8,7 @@ model_path = os.path.join(PROJECT_ROOT, "yolov8n.pt")
 image_path = os.path.join(PROJECT_ROOT, "demo_testing", "capture.jpg")
 
 model = YOLO(model_path)
-
+print(model.names)
 deterrent = LED(17)
 
 #Creates a Picamera2 object
@@ -42,9 +43,13 @@ while True:
         cls = int(box.cls) #cls - class ID
         conf = float(box.conf) #conf - confidence level out of 1.0
         print(f"Detected class {model.names[cls]} with confidence {conf:.2f}")
+        class_name = model.names[cls]
 
-        if class_name.lower() == "bird" and conf > 0.5:
-        bird_detected = True
+        if class_name.lower() == "bear" and conf > 0.5:
+            bird_detected = True
+            print("What the bear doin")
+        else:
+            print("Where the bear at???")
 
     picam2.close()
 
