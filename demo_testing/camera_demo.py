@@ -4,7 +4,7 @@ from picamera2 import Picamera2
 import time, os
 
 PROJECT_ROOT = "/home/scarecrow/Documents/Scarecrow"
-model_path = os.path.join(PROJECT_ROOT, "yolov8n.pt")
+model_path = os.path.join(PROJECT_ROOT, "best.pt")
 image_path = os.path.join(PROJECT_ROOT, "demo_testing", "capture.jpg")
 
 model = YOLO(model_path)
@@ -28,7 +28,6 @@ while True:
     #Saves the image into a list, one object for each image -> results; 
 
     results = model.predict(source=image_path, show=True)
-
     bird_detected = False
 
     #Each object in the list has the following attributes:
@@ -45,16 +44,16 @@ while True:
         print(f"Detected class {model.names[cls]} with confidence {conf:.2f}")
         class_name = model.names[cls]
 
-        if class_name.lower() == "bear" and conf > 0.5:
+        if class_name.lower() == "deer" and conf > 0.5:
             bird_detected = True
-            print("What the bear doin")
+            print("What the deer doin")
         else:
-            print("Where the bear at???")
+            print("Where the deer at???")
 
     picam2.close()
 
     if bird_detected:
-        print("🦜 Bird detected! Activating deterrent...")
+        print("🦜 Deer detected! Activating deterrent...")
         deterrent.on()
         time.sleep(2)   # keep deterrent active for 2 seconds
         deterrent.off()
