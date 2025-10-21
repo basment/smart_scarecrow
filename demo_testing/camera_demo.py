@@ -54,7 +54,7 @@ while True:
     picam2.close()
 
     if bird_detected:
-        print("🦜 Bird detected! Activating deterrent...")
+        print("Deer detected! Activating deterrent...")
         deterrent.on()
         time.sleep(2)   # keep deterrent active for 2 seconds
         deterrent.off()
