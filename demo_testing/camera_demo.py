@@ -45,11 +45,11 @@ while True:
         print(f"Detected class {model.names[cls]} with confidence {conf:.2f}")
         class_name = model.names[cls]
 
-        if class_name.lower() == "bear" and conf > 0.5:
+        if class_name.lower() == "deer" and conf > 0.5:
             bird_detected = True
-            print("What the bear doin")
+            print("What the deer doin")
         else:
-            print("Where the bear at???")
+            print("Where the deer at???")
 
     picam2.close()
 
