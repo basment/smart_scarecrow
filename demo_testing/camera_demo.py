@@ -1,3 +1,4 @@
+"""
 from ultralytics import YOLO
 from gpiozero import LED, Buzzer
 from picamera2 import Picamera2
@@ -60,3 +61,71 @@ while True:
         deterrent.off()
 
     time.sleep(10)
+
+
+    """
+    # hardware_selftest.py
+import time
+import logging
+import argparse
+
+# Import your existing controller (no edits to app/engine/hw needed)
+from hw import HardwareController
+
+def main():
+    parser = argparse.ArgumentParser(description="Smart Scarecrow hardware self-test (no camera/model).")
+    parser.add_argument("--laser", type=float, default=0.0, help="Seconds to run laser (coupled with motor).")
+    parser.add_argument("--motor", type=float, default=0.0, help="Seconds to run motor only.")
+    parser.add_argument("--buzzer", type=float, default=0.0, help="Seconds to run buzzer only.")
+    parser.add_argument("--all", action="store_true", help="Run a short sequence of all tests.")
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        force=True,
+    )
+
+    ctrl = HardwareController()
+    logging.info("HardwareController ready.")
+
+    try:
+        if args.all:
+            logging.info("=== SEQUENCE: laser+motor (1.5s) ===")
+            ctrl.activate_laser_with_motor(1.5)
+            time.sleep(2.0)
+
+            logging.info("=== SEQUENCE: motor only (1.5s) ===")
+            ctrl.activate_motor_only(1.5)
+            time.sleep(2.0)
+
+            logging.info("=== SEQUENCE: buzzer only (1.0s) ===")
+            ctrl.activate_buzzer_only(1.0, frequency=None)
+            time.sleep(1.0)
+
+        if args.laser > 0:
+            logging.info(f"Laser+motor for {args.laser}s")
+            ctrl.activate_laser_with_motor(args.laser)
+            time.sleep(args.laser + 0.5)
+
+        if args.motor > 0:
+            logging.info(f"Motor only for {args.motor}s")
+            ctrl.activate_motor_only(args.motor)
+            time.sleep(args.motor + 0.5)
+
+        if args.buzzer > 0:
+            logging.info(f"Buzzer only for {args.buzzer}s")
+            ctrl.activate_buzzer_only(args.buzzer)
+            time.sleep(args.buzzer + 0.5)
+
+        logging.info("Self-test finished.")
+
+    except KeyboardInterrupt:
+        logging.info("Interrupted by user.")
+    finally:
+        logging.info("Cleaning up hardware…")
+        ctrl.cleanup()
+        logging.info("Cleanup complete.")
+
+if __name__ == "__main__":
+    main()
