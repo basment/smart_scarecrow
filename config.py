@@ -9,36 +9,36 @@ TEST_MODE =os.environ.get("TEST_MODE", "0") == "1"
 SHOW_DEBUG = True
 #ADD THE PROJECT ROOT AND MODEL PATH 
 PROJECT_ROOT = ""
-MODEL_PATH = ""
+MODEL_PATH = "CropGuardian.onnx"
 
 FRAME_INTERVAL_SEC = 1.0 
 
 #TARGET CLASSES (THE ANIMALS)
-TARGET_CLASSES = {"deer", "bird", "squirrel", "rabbit"}
+TARGET_CLASSES = {"deer", "bird", "squirrel", "bunny"}
 
 #Policy def for each of teh target classes, we will have to define the conf, debounce, cooldown, duration
 POLICY = {
 	"bird": {
 		"confidence_threshold": 0.5, 
-		"cooldown_seconds": 10, 
-		"duration_seconds": 3, 
+		"cooldown_seconds": 5, 
+		"duration_seconds": 4, 
 		"deterrence_method": "laser_with_motor"
 	},
 	"deer":{
 		"confidence_threshold": 0.5, 
-		"cooldown_seconds": 10, 
-		"duration_seconds": 3, 
+		"cooldown_seconds": 5, 
+		"duration_seconds": 4, 
 		"deterrence_method": "stepper_motor"
 	},
-	"rabbit":{
+	"bunny":{
 		"confidence_threshold": 0.5, 
-		"cooldown_seconds": 3, 
+		"cooldown_seconds": 4, 
 		"duration_seconds": 3, 
 		"deterrence_method": "buzzer"
 	},
 	"squirrel":{
 		"confidence_threshold": 0.5, 
-		"cooldown_seconds": 3, 
+		"cooldown_seconds": 4, 
 		"duration_seconds": 3, 
 		"deterrence_method": "buzzer"
 	}
